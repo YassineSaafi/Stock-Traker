@@ -1,0 +1,77 @@
+<div class="container">
+    <h2>Devis Fournisseurs</h2>
+    <button class="btn btn-primary" (click)="open(content)">Ajouter Devis</button>
+  
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Référence</th>
+          <th>Fournisseur</th>
+          <th>Date</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let devis of devisList">
+          <td>{{ devis.reference }}</td>
+          <td>{{ devis.fournisseur.nom }}</td>
+          <td>{{ devis.date | date }}</td>
+          <td>{{ devis.total | currency:'EUR' }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteDevis(devis._id)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Modal -->
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Ajouter Devis</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="reference" class="form-label">Référence</label>
+            <input type="text" class="form-control" id="reference" [(ngModel)]="newDevis.reference" name="reference">
+          </div>
+          <div class="mb-3">
+            <label for="fournisseur" class="form-label">Fournisseur</label>
+            <select class="form-control" id="fournisseur" [(ngModel)]="newDevis.fournisseur" name="fournisseur">
+              <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur._id">{{ fournisseur.nom }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="produit" class="form-label">Produit</label>
+            <select class="form-control" id="produit" [(ngModel)]="newProduit.produit" name="produit">
+              <option *ngFor="let produit of produits" [value]="produit._id">{{ produit.nom }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="quantite" class="form-label">Quantité</label>
+            <input type="number" class="form-control" id="quantite" [(ngModel)]="newProduit.quantite" name="quantite">
+          </div>
+          <div class="mb-3">
+            <label for="prixUnitaire" class="form-label">Prix Unitaire</label>
+            <input type="number" class="form-control" id="prixUnitaire" [(ngModel)]="newProduit.prixUnitaire" name="prixUnitaire">
+          </div>
+          <button type="button" class="btn btn-secondary" (click)="addProduitToDevis()">Ajouter Produit</button>
+          <ul class="list-group mt-3">
+            <li class="list-group-item" *ngFor="let produit of newDevis.produits">
+              {{ produit.produit.nom }} - {{ produit.quantite }} x {{ produit.prixUnitaire }} = {{ produit.quantite * produit.prixUnitaire | currency:'EUR' }}
+            </li>
+          </ul>
+          <div class="mt-3">
+            <strong>Total: {{ newDevis.total | currency:'EUR' }}</strong>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="saveDevis()">Sauvegarder</button>
+      </div>
+    </ng-template>
+  </div>
+  

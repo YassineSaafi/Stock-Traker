@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center my-4">Connexion</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">L'email est requis</div>
+            <div *ngIf="f.email.errors.email">L'email n'est pas valide</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pw" class="form-label">Mot de passe</label>
+          <input type="password" id="pw" formControlName="pw" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.pw.errors }">
+          <div *ngIf="submitted && f.pw.errors" class="invalid-feedback">
+            <div *ngIf="f.pw.errors.required">Le mot de passe est requis</div>
+            <div *ngIf="f.pw.errors.minlength">Le mot de passe doit comporter au moins 6 caractères</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
+        <div *ngIf="successMessage" class="alert alert-success mt-3">
+          {{ successMessage }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

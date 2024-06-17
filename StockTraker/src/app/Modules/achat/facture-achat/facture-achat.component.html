@@ -1,0 +1,29 @@
+<div class="container">
+    <h2>Ajouter une Facture d'Achat</h2>
+    <form [formGroup]="factureAchatForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Référence</label>
+        <input type="text" formControlName="reference" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="fournisseurSelect" class="form-label">Choisir un fournisseur</label>
+        <select formControlName="fournisseur" id="fournisseurSelect" class="form-select" required>
+          <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur._id">{{ fournisseur.nom }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" formControlName="date" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Copie de la Facture</label>
+        <input type="file" formControlName="copie" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Montant</label>
+        <input type="number" formControlName="montant" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">Ajouter Facture d'Achat</button>
+    </form>
+  </div>
+  

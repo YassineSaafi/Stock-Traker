@@ -1,0 +1,75 @@
+<div class="container">
+  <h2>Gestion des Bons de Réception</h2>
+
+  <!-- Formulaire de création/modification -->
+  <form [formGroup]="bonReceptionForm" (ngSubmit)="saveBonReception()">
+    <div class="mb-3">
+      <label for="reference" class="form-label">Référence</label>
+      <input type="text" class="form-control" id="reference" formControlName="reference">
+    </div>
+    <div class="mb-3">
+      <label for="fournisseur" class="form-label">Fournisseur</label>
+      <select class="form-select" id="fournisseur" formControlName="fournisseur">
+        <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur._id">{{ fournisseur.nom }}</option>
+      </select>
+    </div>
+    <!-- Champs pour les produits reçus -->
+    <div class="mb-3" formArrayName="produits">
+      <div *ngFor="let produitCtrl of produitsArray.controls; let i = index" [formGroupName]="i">
+        <label for="produit{{i}}">Produit</label>
+        <select class="form-select" id="produit{{i}}" formControlName="produit">
+          <option *ngFor="let produit of produits" [value]="produit._id">{{ produit.nom }}</option>
+        </select>
+        <label for="quantite{{i}}" class="form-label">Quantité</label>
+        <input type="number" class="form-control" id="quantite{{i}}" formControlName="quantite">
+        <button type="button" class="btn btn-danger" (click)="removeProduit(i)">Supprimer</button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="addProduit()">Ajouter Produit</button>
+    <!-- Autres champs nécessaires pour la réception -->
+    <button type="submit" class="btn btn-primary">{{ isEditing ? 'Modifier' : 'Créer' }}</button>
+    <button type="button" class="btn btn-secondary" (click)="resetForm()">Réinitialiser</button>
+  </form>
+
+  <hr>
+
+  <!-- Tableau des bons de réception -->
+  <!-- Tableau des bons de réception -->
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Référence</th>
+        <th scope="col">Fournisseur</th>
+        <th scope="col">Produits</th>
+        <th scope="col">Date de Réception</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bonReception of bonReceptions">
+        <td>{{ bonReception.reference }}</td>
+        <td>{{ bonReception.fournisseur ? bonReception.fournisseur.nom : 'Aucun fournisseur' }}</td>
+        <td>
+          <ul>
+            <ng-container *ngIf="bonReception.produits && bonReception.produits.length > 0">
+              <li *ngFor="let produit of bonReception.produits">
+                {{ produit.produit }} (Quantité: {{ produit.quantite }})
+              </li>
+            </ng-container>
+            <ng-container *ngIf="!bonReception.produits || bonReception.produits.length === 0">
+              <li>Aucun produit associé</li>
+            </ng-container>
+          </ul>
+        </td>
+        <td>{{ bonReception.dateReception | date: 'medium' }}</td>
+        <td>
+          <button type="button" class="btn btn-sm btn-primary" (click)="editBonReception(bonReception)">Modifier</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="deleteBonReception(bonReception._id)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

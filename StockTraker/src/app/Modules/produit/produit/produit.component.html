@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row mt-4">
+    <div class="col">
+      <button class="btn btn-primary" (click)="openModal(content)">Ajouter Produit</button>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Référence</th>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th>Catégorie</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let produit of produits">
+            <td>{{ produit.ref }}</td>
+            <td>{{ produit.nom }}</td>
+            <td>{{ produit.qte }}</td>
+            <td>{{ produit.prix }}</td>
+            <td>{{ produit.categorieNom }}</td> 
+            <td>
+              <button class="btn btn-sm btn-primary" (click)="openModal(content, produit)"><i class="fa fa-pencil"></i></button>
+              <button class="btn btn-sm btn-danger" (click)="onDelete(produit._id!)"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ editingProduit ? 'Modifier' : 'Ajouter' }} Produit</h4>
+    <button type="button" class="btn-close" aria-label="Fermer" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="produitForm" (ngSubmit)="onSubmit(modal)">
+      <div class="mb-3">
+        <label for="ref" class="form-label">Référence</label>
+        <input type="text" class="form-control" id="ref" formControlName="ref">
+        <div *ngIf="formSubmitted && produitForm.controls.ref.errors?.required" class="text-danger">La référence est requise.</div>
+      </div>
+      <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" id="nom" formControlName="nom">
+        <div *ngIf="formSubmitted && produitForm.controls.nom.errors?.required" class="text-danger">Le nom est requis.</div>
+      </div>
+      <div class="mb-3">
+        <label for="qte" class="form-label">Quantité</label>
+        <input type="number" class="form-control" id="qte" formControlName="qte">
+        <div *ngIf="formSubmitted && produitForm.controls.qte.errors?.required" class="text-danger">La quantité est requise.</div>
+      </div>
+      <div class="mb-3">
+        <label for="prix" class="form-label">Prix</label>
+        <input type="number" class="form-control" id="prix" formControlName="prix">
+        <div *ngIf="formSubmitted && produitForm.controls.prix.errors?.required" class="text-danger">Le prix est requis.</div>
+      </div>
+      <div class="mb-3">
+        <label for="categorieNom" class="form-label">Catégorie</label>
+        <select class="form-select" id="categorieNom" formControlName="categorieNom">
+          <option *ngFor="let categorie of categories" [value]="categorie.name">{{ categorie.name }}</option>
+        </select>
+        <div *ngIf="formSubmitted && produitForm.controls.categorieNom.errors?.required" class="text-danger">La catégorie est requise.</div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">{{ editingProduit ? 'Modifier' : 'Ajouter' }}</button>
+    </form>
+  </div>
+</ng-template>

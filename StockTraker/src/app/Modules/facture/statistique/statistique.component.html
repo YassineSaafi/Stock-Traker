@@ -1,0 +1,11 @@
+<div class="statistique-container">
+  <h2>Sales Statistics</h2>
+  <label for="product-select">Select Product:</label>
+  <select id="product-select" [(ngModel)]="selectedProduct" (change)="onProductChange()">
+    <option *ngFor="let product of products" [value]="product.id">{{ product.nom }}</option>
+  </select>
+  
+  <div class="chart-container">
+    <google-chart [data]="chartData" [options]="chartOptions" [type]="chartType" [columns]="chartColumns"></google-chart>
+  </div>
+</div>

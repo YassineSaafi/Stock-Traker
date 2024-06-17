@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>Factures d'Achat</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Référence</th>
+          <th>Fournisseur</th>
+          <th>Date</th>
+          <th>Montant</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let facture of facturesAchat; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ facture.reference }}</td>
+          <td>{{ facture.fournisseur }}</td>
+          <td>{{ facture.date | date }}</td>
+          <td>{{ facture.montant | currency:'EUR' }}</td>
+          <td>
+            <!-- Vous pouvez ajouter des boutons pour voir, éditer ou supprimer la facture -->
+            <button class="btn btn-primary btn-sm">Voir</button>
+            <button class="btn btn-warning btn-sm">Éditer</button>
+            <button class="btn btn-danger btn-sm">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

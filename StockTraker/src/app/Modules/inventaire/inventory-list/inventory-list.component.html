@@ -1,0 +1,31 @@
+<h2>Inventaire De Stock</h2>
+<mat-form-field appearance="fill">
+  <mat-label>Select Categories</mat-label>
+  <mat-select [multiple]="true" [(ngModel)]="selectedCategories" (selectionChange)="filterProductsByCategories()">
+    <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<button class="btn btn-sm btn-primary me-2" (click)="printInventory()">Print Inventory</button>
+<div *ngIf="selectedCategories.length > 0">
+  <div *ngFor="let category of groupedInventories | keyvalue">
+    <h3>{{ category.key }}</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Produit</th>
+          <th>SKU</th>
+          <th>Quantité</th>
+          <th>Prix unitaire</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of category.value">
+          <td>{{ product?.nom }}</td>
+          <td>{{ product?.ref }}</td>
+          <td>{{ product?.qte }}</td>
+          <td>{{ product?.prix }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

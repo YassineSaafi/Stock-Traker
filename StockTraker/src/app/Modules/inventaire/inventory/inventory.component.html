@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Liste des Inventaires</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Référence</th>
+        <th>Nom du produit</th>
+        <th>Catégorie</th>
+        <th>Quantité</th>
+        <th>Prix unitaire</th>
+        <th>Date de réception</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inventory of inventories">
+        <td>{{ inventory.SKU }}</td>
+        <td>{{ inventory.productName }}</td>
+        <td>{{ inventory.category }}</td>
+        <td>{{ inventory.quantity }}</td>
+        <td>{{ inventory.unitPrice }}</td>
+        <td>{{ inventory.receptionDate | date }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="printInventory(inventory)">Imprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

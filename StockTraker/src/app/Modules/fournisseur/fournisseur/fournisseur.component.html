@@ -1,0 +1,73 @@
+<div class="container mt-4">
+  <!-- Button to open modal -->
+  <button class="btn btn-primary" (click)="openModal(modalContent)">Ajouter Fournisseur</button>
+
+  <!-- Modal -->
+  <ng-template #modalContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter/Modifier Fournisseur</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="alertMessage" class="alert alert-{{alertType}}" role="alert">
+        {{ alertMessage }}
+      </div>
+      
+      <form [formGroup]="fournisseurForm" (ngSubmit)="onSubmit()">
+        <!-- Form fields for fournisseur data -->
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom</label>
+          <input type="text" id="nom" class="form-control" formControlName="nom" required>
+          <div *ngIf="formSubmitted && formControls.nom.invalid" class="text-danger">
+            <div *ngIf="formControls.nom.errors?.required">Le nom est requis.</div>
+            <div *ngIf="formControls.nom.errors?.minlength">Le nom doit contenir au moins 3 caractères.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" formControlName="email" required>
+          <div *ngIf="formSubmitted && formControls.email.invalid" class="text-danger">
+            <div *ngIf="formControls.email.errors?.required">L'email est requis.</div>
+            <div *ngIf="formControls.email.errors?.email">L'email n'est pas valide.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="tel" class="form-label">Téléphone</label>
+          <input type="tel" id="tel" class="form-control" formControlName="tel" required>
+          <div *ngIf="formSubmitted && formControls.tel.invalid" class="text-danger">
+            <div *ngIf="formControls.tel.errors?.required">Le téléphone est requis.</div>
+            <div *ngIf="formControls.tel.errors?.pattern">Le téléphone doit contenir uniquement des chiffres.</div>
+          </div>
+        </div>
+
+        <!-- Buttons for form submission -->
+        <button type="submit" class="btn btn-primary me-2" [disabled]="fournisseurForm.invalid">Enregistrer</button>
+        <button type="button" class="btn btn-secondary" (click)="editingFournisseur = null; fournisseurForm.reset()">Annuler</button>
+      </form>
+    </div>
+  </ng-template>
+
+ 
+  <!-- Fournisseurs list -->
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fournisseur of fournisseurs">
+        <td>{{ fournisseur.nom }}</td>
+        <td>{{ fournisseur.email }}</td>
+        <td>{{ fournisseur.tel }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="openModal(modalContent); onEdit(fournisseur)"><i class="fa fa-pencil"></i></button>
+          <button class="btn btn-sm btn-danger" (click)="onDelete(fournisseur._id)"><i class="fa fa-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

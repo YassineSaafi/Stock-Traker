@@ -1,0 +1,39 @@
+<div class="container">
+  <h2>Ajouter un Chèque</h2>
+  <form [formGroup]="chequeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Numéro de bordereau</label>
+      <input type="text" formControlName="numboedereau" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="clientSelect" class="form-label">Choisir un client</label>
+      <select formControlName="client" id="clientSelect" class="form-select" required>
+        <option *ngFor="let client of clients" [value]="client._id">{{ client.nom }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" formControlName="date" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Copie du Chèque</label>
+      <input type="file" formControlName="copie" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Banque</label>
+      <input type="text" formControlName="banque" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Montant</label>
+      <input type="number" formControlName="montant" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>État</label>
+      <select formControlName="etat" class="form-control">
+        <option value="versé">Versé</option>
+        <option value="nonversé">Non versé</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter Chèque</button>
+  </form>
+</div>

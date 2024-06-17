@@ -1,0 +1,65 @@
+<div class="container">
+    <h2>Liste des Utilisateurs</h2>
+    <div class="row">
+      <div class="col-md-8">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Rôle</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let utilisateur of utilisateurs">
+              <td>{{ utilisateur.nom }}</td>
+              <td>{{ utilisateur.email }}</td>
+              <td>{{ utilisateur.role }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm" (click)="ouvrirModal(modifierRoleModal, utilisateur)">Modifier Rôle</button>
+                <button class="btn btn-danger btn-sm" (click)="ouvrirModal(supprimerUtilisateurModal, utilisateur)">Supprimer</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Modification de Rôle -->
+  <ng-template #modifierRoleModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Modifier le rôle de {{ utilisateurSelectionne?.nom }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="roleForm" (ngSubmit)="onSubmitModifierRole()">
+        <div class="form-group">
+          <label for="newRole">Nouveau rôle</label>
+          <input type="text" class="form-control" id="newRole" formControlName="newRole">
+        </div>
+        <button type="submit" class="btn btn-primary">Confirmer</button>
+      </form>
+    </div>
+  </ng-template>
+  
+  <!-- Modal de Suppression d'Utilisateur -->
+  <ng-template #supprimerUtilisateurModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Supprimer l'utilisateur {{ utilisateurSelectionne?.nom }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Êtes-vous sûr de vouloir supprimer l'utilisateur {{ utilisateurSelectionne?.nom }} ?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Annuler</button>
+      <button type="button" class="btn btn-danger" (click)="supprimerUtilisateur()">Supprimer</button>
+    </div>
+  </ng-template>
+  

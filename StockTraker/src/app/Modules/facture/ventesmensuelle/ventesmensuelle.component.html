@@ -1,0 +1,11 @@
+<div>
+    <h2>Ventes Mensuelles pour le Client {{ clientId }} - {{ month }}/{{ year }}</h2>
+    <google-chart
+      [type]="chartType"
+      [data]="chartData"
+      [options]="chartOptions"
+      [width]="800"
+      [height]="600">
+    </google-chart>
+  </div>
+  

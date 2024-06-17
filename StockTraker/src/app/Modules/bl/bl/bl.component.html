@@ -1,0 +1,66 @@
+<div class="container">
+    <h2 class="mb-4">Bons de Livraison</h2>
+    <button type="button" class="btn btn-primary mb-3" (click)="openModal(content)">Créer un Bon de Livraison</button>
+  
+    <div *ngFor="let bonDeLivraison of bonsDeLivraison" class="mb-3">
+      <h5>Bon de Livraison {{ bonDeLivraison.num }}</h5>
+      <p>Client : {{ bonDeLivraison.client }}</p>
+      <p>Date : {{ bonDeLivraison.date | date:'short' }}</p>
+      <p>Total : {{ bonDeLivraison.somme }}</p>
+    </div>
+  
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Créer un Bon de Livraison</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="bonDeLivraisonForm">
+          <div class="mb-3">
+            <label for="clientSelect" class="form-label">Choisir un client</label>
+            <select formControlName="nomclient" id="clientSelect" class="form-select" required>
+              <option *ngFor="let client of clients" [value]="client.nom">{{ client.nom }}</option>
+            </select>
+          </div>
+  
+          <div class="mb-3">
+            <label for="produitSelect" class="form-label">Choisir un produit</label>
+            <select formControlName="produitSelect" id="produitSelect" class="form-select">
+              <option *ngFor="let produit of produits" [value]="produit._id">{{ produit.nom }}</option>
+            </select>
+          </div>
+  
+          <div class="mb-3">
+            <label for="quantite" class="form-label">Quantité</label>
+            <input type="number" formControlName="quantite" id="quantite" class="form-control" required>
+          </div>
+  
+          <button type="button" class="btn btn-primary mb-3" (click)="ajouterProduit()">Ajouter Produit</button>
+  
+          
+            </form>
+            </div>
+            </ng-template>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Référence</th>
+                    <th>Nom</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire</th>
+                    <th>Prix Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of items">
+                    <td>{{ item.ref }}</td>
+                    <td>{{ item.nom }}</td>
+                    <td>{{ item.qte }}</td>
+                    <td>{{ item.prix }}</td>
+                    <td>{{ item.qte * item.prix }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            
+          

@@ -1,0 +1,116 @@
+<div class="container">
+  <h2>Ventes</h2>
+  <!-- Champs de recherche -->
+  <div class="mb-3">
+    <label for="clientSearch">Rechercher par client:</label>
+    <select id="clientSearch" [(ngModel)]="selectedClient" (change)="filtrerFactures()" class="form-control">
+      <option value="">Tous les clients</option>
+      <option *ngFor="let client of clients" [value]="client._id">{{ client.nom }}</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="produitSearch">Rechercher par produit:</label>
+    <select id="produitSearch" [(ngModel)]="selectedProduit" (change)="filtrerFactures()" class="form-control">
+      <option value="">Tous les produits</option>
+      <option *ngFor="let produit of produits" [value]="produit.nom">{{ produit.nom }}</option>
+    </select>
+  </div>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Numéro</th>
+        <th scope="col">Client</th>
+        <th scope="col">Date</th>
+        <th scope="col">REF Produits</th>
+        <th scope="col">Produits</th>
+        <th scope="col">Somme</th>
+        <th scope="col">Paiement</th>
+        <th scope="col">Validation</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let facture of facturesFiltrees">
+        <td>{{ facture.num }}</td>
+        <td>{{ facture.client }}</td>
+        <td>{{ facture.date | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <ng-container *ngFor="let produit of facture.produits; let isLast = last">
+            {{ produit.ref }}{{ !isLast ? ', ' : '' }}
+          </ng-container>
+        </td>
+        <td>
+          <ng-container *ngFor="let produit of facture.produits; let isLast = last">
+            {{ produit.nom }}{{ !isLast ? ', ' : '' }}
+          </ng-container>
+        </td>
+        <td>{{ facture.somme | currency:'EUR':'symbol':'1.2-2' }}</td>
+        <td>{{ facture.paiement }}</td>
+        <td>
+          <button class="btn btn-success" *ngIf="facture.validation">Validée</button>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="modifierFacture(facture)" [disabled]="facture.validation"><i class="fa fa-pencil"></i></button>
+          <button class="btn btn-danger btn-sm" (click)="supprimerFacture(facture._id)" [disabled]="facture.validation"><i class="fa fa-trash"></i></button>
+          <button class="btn btn-secondary btn-sm" (click)="imprimerFacture(facture._id)"><i class="fa fa-print"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div *ngIf="facturesFiltrees.length === 0" class="text-center">
+    <p>Aucune facture disponible pour le moment.</p>
+  </div>
+</div>
+
+<div *ngFor="let facture of factures" [id]="'factureDetails-' + facture._id" style="display: none;">
+  <div class="company-logo">
+    <img src="assets/images/logo.jpg" alt="Logo de la société">
+  </div>
+  <h3>Facture Numéro {{ facture.num }}</h3>
+  <div class="client-details">
+    <h4>{{facture.client}}</h4>
+    <p>{{ facture.adresse }}</p> 
+  </div>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Référence</th>
+        <th>Désignation</th>
+        <th>Qte</th>
+        <th>Prix Unitaire HTVA</th>
+        <th>Prix Total HTVA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let produit of facture.produits">
+        <td>{{ produit.ref }}</td>
+        <td>{{ produit.nom }}</td>
+        <td>{{ produit.qte }}</td>
+        <td>{{ produit.prix | currency:'EUR':'symbol':'1.2-2' }}</td>
+        <td>{{ produit.prix * produit.qte | currency:'EUR':'symbol':'1.2-2' }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">Total HT</td>
+        <td>{{ facture.somme | currency:'EUR':'symbol':'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <td colspan="4">TVA 17 %</td>
+        <td>{{ facture.somme * 17 / 100 | currency:'EUR':'symbol':'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <td colspan="4">Total TTC</td>
+        <td>{{ facture.somme + (facture.somme * 17 / 100) | currency:'EUR':'symbol':'1.2-2' }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="payment-details">
+    <p>paiement par: {{ facture.paiement }}</p>
+    <p>Total : {{ facture.somme + (facture.somme * 17 / 100) | currency:'EUR':'symbol':'1.2-2' }}</p>
+  </div>
+</div>

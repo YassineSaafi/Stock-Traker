@@ -1,0 +1,56 @@
+.sidebar{
+  color: #000;
+}
+.sidebar-menu {
+  
+  padding: 0;
+  margin: 0;
+ 
+}
+
+.sidebar-menu li {
+  margin-bottom: 10px; /* Espacement entre les éléments de la liste */
+}
+
+.sidebar-menu li a {
+  display: block;
+  padding: 10px 15px;
+  color: #F3F7EC; /* Couleur du texte */
+  text-decoration: none;
+  transition: background-color 0.3s ease, padding-left 0.3s ease; /* Transition pour l'effet hover */
+}
+
+.sidebar-menu li a:hover {
+  background-color: #E88D67; /* Couleur de fond au survol */
+  color: #fff; /* Couleur du texte au survol */
+  border-left: 3px solid #6FDCE3; /* Bordure gauche au survol */
+  padding-left: 12px; /* Ajustement du padding pour la bordure gauche */
+}
+
+.sub-menu {
+  display: none; /* Cacher les sous-menus par défaut */
+  list-style-type: none; /* Supprimer les puces de la sous-liste */
+  padding-left: 10px; /* Espacement à gauche pour indiquer le niveau */
+}
+
+.sidebar-menu li:hover .sub-menu {
+  display: block; /* Afficher le sous-menu au survol de l'élément parent */
+}
+
+/* Reset and additional styling for dropdowns in sidebar */
+.sidebar-menu .dropdown-menu {
+  position: static;
+  float: none;
+  padding-left: 20px; /* Optional: adjust padding for nested dropdowns */
+  background-color: inherit; /* Ensures the submenu background matches the parent */
+  border: none; /* Removes the default border */
+}
+.sidebar-menu ul {
+  display: none;
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.sidebar-menu li:hover > ul {
+  display: block;
+}
